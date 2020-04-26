@@ -138,7 +138,8 @@ class _CameraScreenState extends State<CameraScreen> {
                       MaterialPageRoute(
                         builder: (context) => 
                           WordsScreen(emotions: null, 
-                            existingList: widget.existingList),
+                            existingList: widget.existingList, 
+                            urls: null),
                       ),
                     );
                   },

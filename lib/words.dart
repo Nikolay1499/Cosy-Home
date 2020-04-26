@@ -8,8 +8,10 @@ class WordsScreen extends StatefulWidget {
 
   final List<String> emotions;
   final List<String> existingList;
+  final List<String> urls;
   WordsScreen({Key key, @required this.emotions,
-                      @required this.existingList}) : super(key: key);
+                      @required this.existingList,
+                      @required this.urls}) : super(key: key);
 
   @override
   _WordsScreenState createState() => _WordsScreenState();
@@ -18,15 +20,23 @@ class WordsScreen extends StatefulWidget {
 class _WordsScreenState extends State<WordsScreen>
 { 
   List<String> list = List<String>();
-  String urlMovie = "https://www.imdb.com/chart/top/";
-  String urlMusic = "https://open.spotify.com/playlist/1llkez7kiZtBeOw5UjFlJq";
-  String urlFood = "https://cafedelites.com/creamy-garlic-parmesan-mac-and-cheese";
+  List<String> urlList = List<String>(4);
+  String urlMovie;
+  String urlMusic;
+  String urlFood;
   int first, second;
   String emotionValue = "You ar feeling neutral";
   @override
   void initState()
   {
     super.initState();
+    if(widget.urls != null)
+    {
+      urlMovie = widget.urls[0];
+      urlMusic = widget.urls[1];
+      urlFood = widget.urls[2];
+      emotionValue = widget.urls[3];
+    }
     first = -1;
     second = -1;
     list = widget.existingList;
@@ -54,9 +64,18 @@ class _WordsScreenState extends State<WordsScreen>
         list.add("Neutral: VERY LIKELY\n");
       else
         list.add("Neutral: VERY UNLIKELY\n");
-      int emottion = determineEmotions();
-      setLinks(emottion);
+      if(widget.urls == null)
+      {
+        int emottion = determineEmotions();
+        setLinks(emottion);
+        urlList[0] = urlMovie;
+        urlList[1] = urlMusic;
+        urlList[2] = urlFood;
+        urlList[3] = emotionValue;
+      }
     }
+    else
+      urlList = widget.urls;
   }
 
 
@@ -214,7 +233,7 @@ class _WordsScreenState extends State<WordsScreen>
           context, 
           MaterialPageRoute(
             builder: (context) => 
-              CameraScreen(camera: firstCamera, existingList: widget.existingList),
+              CameraScreen(camera: firstCamera, existingList: null),
           ),
         );
       },
@@ -247,7 +266,7 @@ class _WordsScreenState extends State<WordsScreen>
                       ),
                       for(int i = 0; i < list.length; i++)
                         wordList(i),
-                      
+                      SizedBox(height: 30, width: width,child:Container(color: Color(0xffc3b091))),
                       Text(emotionValue, 
                         style: TextStyle(fontSize: 35, fontFamily: 'Comfortaa',), 
                         textAlign: TextAlign.center,)
@@ -287,12 +306,13 @@ class _WordsScreenState extends State<WordsScreen>
                   heroTag: "getResultMovie",
                   child: Icon(Icons.movie, size: 20,),
                   onPressed: () {
+                    print(urlMovie);
                     Navigator.pushReplacement(
                       context, 
                       MaterialPageRoute(
                         builder: (context) => 
                           WebViewScreen(url : urlMovie
-                                      , existingList: list,),
+                                      , existingList: list, urls : urlList),
                       ),
                     );
                   },
@@ -306,12 +326,13 @@ class _WordsScreenState extends State<WordsScreen>
                   heroTag: "getResultMusic",
                   child: Icon(Icons.music_note, size: 20,),
                   onPressed: () {
+                    print(urlMusic);
                     Navigator.pushReplacement(
                       context, 
                       MaterialPageRoute(
                         builder: (context) => 
                           WebViewScreen(url : urlMusic
-                                      , existingList: list,),
+                                      , existingList: list, urls : urlList),
                       ),
                     );
                   },
@@ -325,12 +346,13 @@ class _WordsScreenState extends State<WordsScreen>
                   heroTag: "getResultFood",
                   child: Icon(Icons.fastfood, size: 20,),
                   onPressed: () {
+                    print(urlFood);
                     Navigator.pushReplacement(
                       context, 
                       MaterialPageRoute(
                         builder: (context) => 
                           WebViewScreen(url : urlFood
-                                      , existingList: list,),
+                                      , existingList: list, urls : urlList),
                       ),
                     );
                   },

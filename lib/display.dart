@@ -146,7 +146,8 @@ class _DisplayPictureScreenState extends State<DisplayPictureScreen> {
         MaterialPageRoute(
           builder: (context) => 
             WordsScreen(emotions: responses.responses[0].faceAnnotations[0].emotions, 
-            existingList: widget.existingList == null ? [] : widget.existingList,),
+            existingList: (widget.existingList == null ? [] : widget.existingList),
+            urls: null),
         ),
       );
     }

@@ -7,7 +7,8 @@ import 'package:flutter_hack/words.dart';
 class WebViewScreen extends StatefulWidget {
   final String url;
   final List<String> existingList;
-  WebViewScreen({Key key, @required this.url, @required this.existingList}) : super(key: key);
+  final List<String> urls;
+  WebViewScreen({Key key, @required this.url, @required this.existingList, @required this.urls}) : super(key: key);
   @override
   _WebViewScreenState createState() => _WebViewScreenState();
 }
@@ -38,7 +39,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
           context, 
           MaterialPageRoute(
             builder: (context) => 
-              WordsScreen(emotions: null, existingList: widget.existingList),
+              WordsScreen(emotions: null, existingList: widget.existingList, urls: widget.urls),
           ),
         );
       },
